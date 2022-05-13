@@ -9,7 +9,7 @@ function preload()
 	capwalk=loadAnimation('/assets/capwalk_1.png','/assets/capwalk_2.png','/assets/capwalk_3.png','/assets/capwalk_4.png','/assets/capwalk_5.png','/assets/capwalk_6.png','/assets/capwalk_7.png')
 	cappunch=loadAnimation('/assets/cappunch_1.png','/assets/cappunch_2.png','/assets/cappunch_3.png','/assets/cappunch_4.png','/assets/cappunch_5.png','/assets/cappunch_6.png','/assets/cappunch_7.png','/assets/cappunch_8.png')
 	coinmoving=loadAnimation('/assets/coin_1.png','/assets/coin_2.png','/assets/coin_3.png','/assets/coin_4.png','/assets/coin_5.png')
-	backgroundImage=loadImage('/assets/bg.png')
+	backgroundImage=loadImage('assets/new_bg.jpg')
 	soldiermoving=loadAnimation('/assets/hs_1.png','/assets/hs_2.png','/assets/hs_3.png','/assets/hs_4.png')
 	redskullfire=loadAnimation('/assets/rs_1.png','/assets/rs_2.png','/assets/rs_3.png','/assets/rs_4.png')
 	redskullImage=loadImage('assets/rs.png')
@@ -24,19 +24,21 @@ function preload()
 function setup() {
 	createCanvas(1400, 600);
 	//Create the Bodies Here.
-	bg= createSprite(900,300,2000,600);
+	bg= createSprite(700,150,1400,600);
 	
 	bg.addImage(backgroundImage);
-	bg.velocityX=-2;
-	bg.scale = 4.5;
+	
+	bg.scale = 1.5;
 	
 
-	captainA = createSprite(100,380,20,50);
+	captainA = createSprite(100,530,20,50);
 	
 	captainA.addAnimation("walking", capwalk);
 	captainA.addAnimation("punching", cappunch);
 	captainA.addAnimation("jumping", capjump)
-	captainA.scale = 0.25;
+	captainA.scale = 0.2;
+	captainA.setCollider("rectangle", 0, 0, 500, 1050, 0);
+	//captainA.debug=true;
 	
 	
 	
@@ -61,12 +63,11 @@ function setup() {
 function draw() {
  
   background(0);
-   //trex.debug = true;
-   fill("white")
    
-   text("Score: "+ score, 1200,50);
+   
    
    if (gameState===PLAY){
+	bg.velocityX=-3;
 	 score = score + Math.round(getFrameRate()/60);
      if (keyDown("z")){
 		captainA.changeAnimation("jumping")
@@ -99,8 +100,9 @@ function draw() {
     }
   }
   else if (gameState === END) {
-	
-    
+	  textSize(50)
+	fill("red")
+    text("GameOver",600,250)
     //set velcity of each game object to 0
     ground.velocityX = 0;
     captainA.velocityY = 0;
@@ -119,16 +121,22 @@ function draw() {
   
   
   drawSprites();
+  fill("white")
+   textSize(20)
+   text("Score: "+ score, 1200,50);
  
 }
 
 function spawnObstacles() {
 	if(frameCount % 200 === 0) {
-	  var obstacle = createSprite(1400,400,50,40);
+	  var obstacle = createSprite(1400,510,50,40);
 	  obstacle.addAnimation("moving",soldiermoving)
 	  //obstacle.debug = true;
 	  obstacle.velocityX = -4;
-	  obstacle.scale=0.1;
+	  obstacle.scale=0.14;
+	  //obstacle.setCollider("rectangle", 0, 0, 30, 80, 0);
+	  //obstacle.debug=true;
+
 	 // obstacle.lifetime=200
 	  obstaclesGroup.add(obstacle)
 	
